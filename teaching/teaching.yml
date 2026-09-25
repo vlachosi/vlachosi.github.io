@@ -1,0 +1,9 @@
+# Teaching, newest first.
+# Fields: title, when, where, description, href, links[{label, url}]
+# Delete `placeholder: true` when an entry is real.
+
+- title: "Course code: course name"
+  when: "2026"
+  where: "Role, institution"
+  description: "What the course covers and what you taught (tutorials, labs, marking)."
+  placeholder: true

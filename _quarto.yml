@@ -1,0 +1,91 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+    # Hidden until they have content; see README.
+    - "!talks/"
+    - "!teaching/"
+  resources:
+    - CNAME
+    - assets/fonts/
+    - assets/js/
+    - assets/vendor/
+    - assets/og.png
+    - cv/*.pdf
+
+lang: en-AU
+
+website:
+  title: "Ioannis Vlachos"
+  description: "Ioannis Vlachos, Honours Student at Monash Business School."
+  site-url: "https://ioannisvlachos.com"
+  repo-url: "https://github.com/vlachosi/vlachosi.github.io"
+  favicon: assets/favicon.svg
+  image: assets/og.png
+  open-graph: true
+  twitter-card:
+    creator: "@vlachosii"
+    card-style: summary_large_image
+  search:
+    location: navbar
+    type: overlay
+  page-navigation: false
+  back-to-top-navigation: false
+  navbar:
+    title: "Ioannis Vlachos"
+    right:
+      - text: About
+        href: about.qmd
+      - text: Research
+        href: research/index.qmd
+      - text: Writing
+        href: writing/index.qmd
+      - text: Projects
+        href: projects/index.qmd
+      - text: CV
+        href: cv/index.qmd
+  page-footer:
+    left: "© 2026 Ioannis Vlachos"
+    center:
+      - text: ORCID
+        href: https://orcid.org/0009-0003-1216-2488
+      - text: SSRN
+        href: https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=13292568
+      - text: GitHub
+        href: https://github.com/vlachosi
+      - text: LinkedIn
+        href: https://www.linkedin.com/in/iivlachos/
+      - text: Bluesky
+        href: https://bsky.app/profile/vlachosi.bsky.social
+      - text: X
+        href: https://x.com/vlachosii
+    right:
+      - icon: rss
+        href: writing/index.xml
+        aria-label: RSS feed
+
+format:
+  html:
+    theme:
+      light: [styles/common.scss, styles/light.scss]
+      dark: [styles/common.scss, styles/dark.scss]
+    respect-user-color-scheme: false
+    css: styles/fonts.css
+    include-in-header: _includes/head.html
+    include-after-body: _includes/after-body.html
+    html-math-method:
+      method: katex
+      url: /assets/vendor/katex/
+    highlight-style:
+      light: a11y
+      dark: a11y-dark
+    code-copy: hover
+    title-block-categories: false
+    anchor-sections: true
+    smooth-scroll: false
+    link-external-icon: false
+    link-external-newwindow: false
+
+execute:
+  freeze: auto

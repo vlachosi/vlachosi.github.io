@@ -1,0 +1,25 @@
+<%
+const statusLabel = { published: "Published", working: "Working paper", progress: "In progress", thesis: "Thesis" };
+const kind = templateParams.kind;
+%>
+```{=html}
+<ul class="home-list list">
+<% if (items.length === 0) { %>
+<li class="home-empty"><%- templateParams.empty %></li>
+<% } %>
+<% for (const item of items) {
+  const link = item.href || (kind === "writing" ? item.path : undefined);
+  let meta = "";
+  if (kind === "writing") meta = item.date || "";
+  else if (kind === "research") meta = [item.year, statusLabel[item.status]].filter(Boolean).join(" · ");
+  else meta = item.kind || "";
+  const desc = kind === "research" ? item.authors : item.description;
+%>
+<li class="home-item<%= item.placeholder ? ' is-placeholder' : '' %>" <%= metadataAttrs(item) %>>
+  <div class="meta"><%- meta %></div>
+  <h3 class="title"><% if (link) { %><a href="<%- link %>"><%= item.title %></a><% } else { %><%= item.title %><% } %><% if (item.placeholder) { %><span class="placeholder-tag">placeholder</span><% } %></h3>
+  <% if (desc) { %><p class="desc"><%= desc %></p><% } %>
+</li>
+<% } %>
+</ul>
+```

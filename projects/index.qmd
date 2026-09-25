@@ -1,0 +1,14 @@
+---
+title: "Projects"
+description: "Software, replication packages and other things I have built."
+listing:
+  id: projects
+  contents: projects.yml
+  template: ../templates/cards.ejs
+  sort: false
+---
+
+::: {#projects}
+:::
+
+More on [GitHub](https://github.com/vlachosi).

@@ -1,0 +1,12 @@
+---
+title: "Teaching"
+description: "Courses I have taught or tutored."
+listing:
+  id: teaching
+  contents: teaching.yml
+  template: ../templates/events.ejs
+  sort: false
+---
+
+::: {#teaching}
+:::

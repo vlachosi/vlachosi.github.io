@@ -1,0 +1,23 @@
+---
+title: "Curriculum vitae"
+---
+
+<!--
+  The CV is the PDF at cv/vlachos-cv.pdf, drawn into this page by
+  assets/js/cv.js. To update the CV, replace that file; nothing on this page
+  needs editing.
+-->
+
+```{=html}
+<div class="cv-actions">
+  <a class="btn-line is-disabled" href="vlachos-cv.pdf" download aria-disabled="true" data-cv-download><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> Download PDF</a>
+</div>
+
+<div class="cv-viewer" data-cv-viewer="vlachos-cv.pdf">
+  <p class="cv-status" data-cv-loading>Loading CV…</p>
+  <p class="cv-status" data-cv-missing hidden>The PDF of my CV will appear here soon. <span class="placeholder-tag">placeholder</span></p>
+</div>
+
+<noscript><p><a href="vlachos-cv.pdf">Open the CV as a PDF</a>.</p></noscript>
+<script type="module" src="/assets/js/cv.js"></script>
+```

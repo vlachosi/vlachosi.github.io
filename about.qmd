@@ -1,0 +1,31 @@
+---
+title: "About"
+---
+
+::: {.about-lede}
+I'm an Honours Student at Monash Business School. The focus of my research is how markets price information in options and volatility, how much of scheduled news such as an earnings announcement is already in option prices, and how efficiently the rest is absorbed.
+
+AI is my other obsession. I'm currently building my own homelab to run models locally, which felt inevitable as I've been long custom PC building since I was twelve and have never closed the position.
+
+[Current rig: AMD Ryzen 9 9950X3D · NVIDIA GeForce RTX 5080 · 96 GB DDR5]{.rig}
+:::
+
+## Elsewhere
+
+```{=html}
+<ul class="elsewhere">
+  <li><span class="label">Email</span><span data-email-slot><span class="placeholder-tag" style="margin-left:0">placeholder</span></span></li>
+  <li><span class="label">ORCID</span><a href="https://orcid.org/0009-0003-1216-2488">0009-0003-1216-2488</a></li>
+  <li><span class="label">SSRN</span><a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=13292568">Author page</a></li>
+  <li><span class="label">GitHub</span><a href="https://github.com/vlachosi">vlachosi</a></li>
+  <li><span class="label">LinkedIn</span><a href="https://www.linkedin.com/in/iivlachos/">in/iivlachos</a></li>
+  <li><span class="label">Bluesky</span><a href="https://bsky.app/profile/vlachosi.bsky.social">@vlachosi.bsky.social</a></li>
+  <li><span class="label">X</span><a href="https://x.com/vlachosii">@vlachosii</a></li>
+</ul>
+```
+
+## Colophon
+
+The dial on the front page is a simulated year of implied volatility: it builds into each scheduled announcement, such as earnings or a central bank decision, and falls once the news is out. Each draw places the announcements at new dates. It runs in your browser, a few hundred lines of plain JavaScript with no libraries. Every page and post also carries a short random walk seeded from its own address.
+
+The site is built with [Quarto](https://quarto.org), and the [source is on GitHub](https://github.com/vlachosi/vlachosi.github.io).

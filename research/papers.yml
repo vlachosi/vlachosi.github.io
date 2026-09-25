@@ -1,0 +1,28 @@
+# Research outputs, grouped on the page by `status`:
+#   published | working | progress | thesis
+# Fields: title, status, year, authors, venue, abstract, href, links[{label, url}]
+# Delete `placeholder: true` when an entry is real.
+
+- title: "Title of a working paper"
+  status: working
+  year: 2026
+  authors: "Ioannis Vlachos"
+  abstract: "Two or three sentences stating the question, the approach and the main finding."
+  placeholder: true
+  links:
+    - label: SSRN
+      url: https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=13292568
+
+- title: "Title of a project in progress"
+  status: progress
+  year: 2026
+  authors: "Ioannis Vlachos"
+  abstract: "A sentence on what the project asks and what data or method it uses."
+  placeholder: true
+
+- title: "Title of a thesis"
+  status: thesis
+  year: 2025
+  authors: "Ioannis Vlachos"
+  venue: "Degree, institution"
+  placeholder: true

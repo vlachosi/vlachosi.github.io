@@ -1,0 +1,1376 @@
+/*-- scss:defaults --*/
+
+// Colour values come from light.scss / dark.scss; everything here is shared.
+
+$font-family-sans-serif: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+$font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+$headings-font-family: "Petrona", "Iowan Old Style", Georgia, serif;
+$headings-font-weight: 500;
+$font-size-base: 1.1rem;
+$line-height-base: 1.65;
+
+// Type scale: every text size on the site is one of these (root is 17px).
+$fs-display: clamp(2.2rem, 5.2vw, 3.8rem);  // h1: the name and page titles
+$fs-h2: 1.5rem;                             // section headings, the hero role
+$fs-h3: 1.2rem;                             // entry, card and list titles
+$fs-lead: clamp(1.02rem, 1.4vw, 1.14rem);   // serif lead paragraphs
+$fs-body: $font-size-base;                  // running text
+$fs-small: 0.95rem;                         // descriptions, captions, nav links
+$fs-mono: 0.78rem;                          // mono labels, meta, buttons, footer
+$fs-tag: 0.66rem;                           // placeholder badges
+
+// Vertical rhythm.
+$page-top: clamp(3rem, 6vw, 4rem);  // navbar to the first heading
+$page-end: 4rem;                    // last content to the footer
+$section-gap: 2.5rem;               // between sections
+$title-gap: 1.6rem;                 // title block to the page's content
+
+$body-bg: $paper;
+$body-color: $ink;
+$body-secondary-color: $muted;
+$primary: $accent;
+$secondary: $muted;
+$link-color: $ink;
+$link-hover-color: $accent;
+$border-color: $rule;
+$hr-border-color: $rule;
+
+$navbar-bg: $paper;
+$navbar-fg: $ink;
+$navbar-hl: $accent;
+$footer-bg: $paper;
+$footer-fg: $muted;
+
+$code-color: $ink;
+$code-bg: $card;
+$code-block-bg: $card;
+$code-block-border-left: $rule;
+$toc-color: $muted;
+$toc-active-border: $accent;
+$callout-border-width: 2px;
+
+/*-- scss:rules --*/
+
+// ---------------------------------------------------------------------------
+// Base
+// ---------------------------------------------------------------------------
+
+:root {
+  --mono: #{$font-family-monospace};
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4 {
+  font-family: $headings-font-family;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+h2, .h2 {
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-top: $section-gap;
+  font-size: $fs-h2;
+}
+
+h3, .h3 {
+  font-size: $fs-h3;
+  margin-top: 2rem;
+}
+
+// Quarto drops the top margin of the first section heading, which is right
+// only when nothing precedes it (on About the lede does).
+main.content > :not(#title-block-header) + section > h2:first-child {
+  margin-top: $section-gap;
+}
+
+a {
+  color: var(--ink);
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 120ms ease, text-decoration-color 120ms ease;
+}
+
+a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+hr {
+  border-color: var(--rule);
+  opacity: 1;
+}
+
+code, kbd, pre, samp, .mono {
+  font-family: $font-family-monospace;
+  // JetBrains Mono ships programming ligatures (=> as an arrow); show code as typed.
+  font-variant-ligatures: none;
+  font-feature-settings: "calt" 0, "liga" 0;
+}
+
+.mono {
+  font-variant-numeric: tabular-nums;
+}
+
+// No italics anywhere in the design; emphasis is carried by weight instead.
+// KaTeX keeps its italic maths variables through its own, more specific rules.
+em, i, cite, dfn, var, address {
+  font-style: normal;
+}
+
+em {
+  font-weight: 600;
+}
+
+p code:not(.sourceCode), li code:not(.sourceCode) {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.05em 0.3em;
+  font-size: 0.88em;
+  color: var(--ink);
+}
+
+.visually-hidden-focusable:not(:focus):not(:focus-within),
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Utilities
+// ---------------------------------------------------------------------------
+
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(28px, 4vw, 40px);
+}
+
+.kicker {
+  font-family: $font-family-monospace;
+  font-size: $fs-mono;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.placeholder-tag {
+  display: inline-block;
+  vertical-align: 0.15em;
+  margin-left: 0.5em;
+  padding: 0.05rem 0.4rem;
+  font-family: $font-family-monospace;
+  font-size: $fs-tag;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--accent);
+  border: 1px dashed var(--accent);
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.more {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-family: $font-family-monospace;
+  font-size: $fs-mono;
+  text-decoration: none;
+  color: var(--muted);
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.pill-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.55rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  a, span {
+    display: inline-block;
+    padding: 0.08rem 0.5rem;
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+  }
+
+  a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+}
+
+// Deterministic sparkline "fingerprints" (assets/js/sparkline.js).
+svg.spark {
+  display: block;
+  width: 120px;
+  height: 22px;
+  overflow: visible;
+
+  .spark-line {
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 1.25;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .spark-end {
+    fill: var(--accent);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Navbar
+// ---------------------------------------------------------------------------
+
+#quarto-header {
+  background: var(--paper);
+}
+
+.navbar {
+  background: var(--paper) !important;
+  border-bottom: 1px solid var(--rule);
+  box-shadow: none;
+  padding-block: 0.55rem;
+}
+
+.navbar-brand {
+  position: relative;
+  padding-left: 44px;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+
+  // Monogram: a pen-drawn "IV" over a volatility smile. assets/js/brand.js
+  // replaces the fixed smile below with one drawn afresh on each page load.
+  // The letters carry a thin outline so the pen's hairlines hold up at a distance.
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    transform: translateY(-50%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  &::before {
+    background: var(--ink);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round' d='M18.5 11.8L19.0 11.3L19.6 10.7L20.2 10.1L20.8 9.5L21.4 8.9L22.1 8.4L18.0 13.2L17.4 13.7L16.7 14.3L16.1 14.9L15.5 15.5L15.0 16.1L14.5 16.6ZM22.1 8.4L22.1 9.5L22.1 10.8L22.0 12.0L21.8 13.4L21.6 14.8L21.4 16.2L21.2 17.6L20.9 19.1L20.6 20.7L20.2 22.2L19.9 23.7L19.6 25.3L19.3 26.9L19.0 28.4L18.7 30.0L18.4 31.5L18.2 33.0L18.0 34.5L17.9 36.0L17.8 37.4L17.8 38.8L17.9 40.1L13.8 44.9L13.8 43.6L13.8 42.2L13.8 40.8L14.0 39.3L14.1 37.9L14.4 36.3L14.6 34.8L14.9 33.3L15.2 31.7L15.5 30.1L15.9 28.6L16.2 27.0L16.5 25.5L16.8 24.0L17.1 22.5L17.4 21.0L17.6 19.6L17.8 18.2L17.9 16.9L18.0 15.6L18.1 14.4L18.0 13.2ZM28.8 8.6L29.0 9.8L29.4 11.1L29.7 12.5L30.1 13.9L30.4 15.3L30.8 16.7L31.2 18.2L31.6 19.7L32.0 21.2L32.5 22.7L32.9 24.3L33.3 25.8L33.8 27.4L34.2 28.9L34.7 30.5L35.1 32.0L35.6 33.6L36.0 35.1L36.5 36.6L36.9 38.1L37.3 39.6L37.7 41.0L33.7 45.8L33.3 44.4L32.8 42.9L32.4 41.4L32.0 39.9L31.5 38.4L31.1 36.9L30.6 35.3L30.2 33.8L29.7 32.2L29.3 30.6L28.9 29.1L28.4 27.5L28.0 26.0L27.6 24.5L27.2 23.0L26.8 21.5L26.4 20.1L26.0 18.7L25.6 17.3L25.3 16.0L25.0 14.7L24.7 13.4ZM37.7 41.0L38.6 39.4L39.5 37.7L40.3 36.1L41.2 34.5L42.2 32.9L43.1 31.3L44.0 29.7L44.9 28.1L45.9 26.6L46.8 25.0L47.8 23.5L48.7 22.0L49.7 20.5L50.7 19.0L51.6 17.6L52.6 16.2L53.5 14.8L54.5 13.4L55.4 12.1L56.4 10.8L57.3 9.6L58.3 8.4L54.2 13.2L53.3 14.4L52.3 15.7L51.4 16.9L50.4 18.3L49.5 19.6L48.5 21.0L47.6 22.4L46.6 23.8L45.6 25.3L44.7 26.8L43.7 28.3L42.8 29.8L41.8 31.4L40.9 33.0L40.0 34.5L39.0 36.1L38.1 37.7L37.2 39.3L36.3 40.9L35.4 42.6L34.5 44.2L33.7 45.8ZM58.3 8.4L58.9 7.8L59.6 7.4L60.3 7.1L61.1 7.1L61.8 7.2L62.4 7.4L58.4 12.2L57.7 12.0L57.0 11.9L56.3 12.0L55.6 12.2L54.9 12.6L54.2 13.2Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round' d='M18.5 11.8L19.0 11.3L19.6 10.7L20.2 10.1L20.8 9.5L21.4 8.9L22.1 8.4L18.0 13.2L17.4 13.7L16.7 14.3L16.1 14.9L15.5 15.5L15.0 16.1L14.5 16.6ZM22.1 8.4L22.1 9.5L22.1 10.8L22.0 12.0L21.8 13.4L21.6 14.8L21.4 16.2L21.2 17.6L20.9 19.1L20.6 20.7L20.2 22.2L19.9 23.7L19.6 25.3L19.3 26.9L19.0 28.4L18.7 30.0L18.4 31.5L18.2 33.0L18.0 34.5L17.9 36.0L17.8 37.4L17.8 38.8L17.9 40.1L13.8 44.9L13.8 43.6L13.8 42.2L13.8 40.8L14.0 39.3L14.1 37.9L14.4 36.3L14.6 34.8L14.9 33.3L15.2 31.7L15.5 30.1L15.9 28.6L16.2 27.0L16.5 25.5L16.8 24.0L17.1 22.5L17.4 21.0L17.6 19.6L17.8 18.2L17.9 16.9L18.0 15.6L18.1 14.4L18.0 13.2ZM28.8 8.6L29.0 9.8L29.4 11.1L29.7 12.5L30.1 13.9L30.4 15.3L30.8 16.7L31.2 18.2L31.6 19.7L32.0 21.2L32.5 22.7L32.9 24.3L33.3 25.8L33.8 27.4L34.2 28.9L34.7 30.5L35.1 32.0L35.6 33.6L36.0 35.1L36.5 36.6L36.9 38.1L37.3 39.6L37.7 41.0L33.7 45.8L33.3 44.4L32.8 42.9L32.4 41.4L32.0 39.9L31.5 38.4L31.1 36.9L30.6 35.3L30.2 33.8L29.7 32.2L29.3 30.6L28.9 29.1L28.4 27.5L28.0 26.0L27.6 24.5L27.2 23.0L26.8 21.5L26.4 20.1L26.0 18.7L25.6 17.3L25.3 16.0L25.0 14.7L24.7 13.4ZM37.7 41.0L38.6 39.4L39.5 37.7L40.3 36.1L41.2 34.5L42.2 32.9L43.1 31.3L44.0 29.7L44.9 28.1L45.9 26.6L46.8 25.0L47.8 23.5L48.7 22.0L49.7 20.5L50.7 19.0L51.6 17.6L52.6 16.2L53.5 14.8L54.5 13.4L55.4 12.1L56.4 10.8L57.3 9.6L58.3 8.4L54.2 13.2L53.3 14.4L52.3 15.7L51.4 16.9L50.4 18.3L49.5 19.6L48.5 21.0L47.6 22.4L46.6 23.8L45.6 25.3L44.7 26.8L43.7 28.3L42.8 29.8L41.8 31.4L40.9 33.0L40.0 34.5L39.0 36.1L38.1 37.7L37.2 39.3L36.3 40.9L35.4 42.6L34.5 44.2L33.7 45.8ZM58.3 8.4L58.9 7.8L59.6 7.4L60.3 7.1L61.1 7.1L61.8 7.2L62.4 7.4L58.4 12.2L57.7 12.0L57.0 11.9L56.3 12.0L55.6 12.2L54.9 12.6L54.2 13.2Z'/%3E%3C/svg%3E");
+  }
+
+  &::after {
+    background: color-mix(in srgb, var(--ink) 55%, transparent);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='none' stroke='black' stroke-width='2.8' stroke-linecap='round' d='M5.5 47C11 52 22.7 54.5 35.7 54.5S48.7 52 58.5 47'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='none' stroke='black' stroke-width='2.8' stroke-linecap='round' d='M5.5 47C11 52 22.7 54.5 35.7 54.5S48.7 52 58.5 47'/%3E%3C/svg%3E");
+  }
+
+  &.has-live-smile::after {
+    display: none;
+  }
+
+  .brand-smile {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    transform: translateY(-50%);
+    overflow: visible;
+
+    polyline {
+      fill: none;
+      stroke: var(--ink);
+      stroke-opacity: 0.55;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    circle {
+      fill: var(--accent);
+    }
+  }
+
+  .navbar-title {
+    font-family: $headings-font-family;
+    font-size: 1.14rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+}
+
+.navbar .nav-link {
+  font-size: $fs-small;
+  font-weight: 500;
+  color: var(--ink);
+  padding-inline: 0.7rem !important;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--accent);
+  }
+
+  &.active {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.5em;
+  }
+}
+
+.navbar .quarto-navbar-tools {
+  margin-left: 0.9rem;
+}
+
+.navbar .quarto-color-scheme-toggle .bi::before,
+.navbar .navbar-toggler-icon {
+  color: var(--ink);
+}
+
+// ---------------------------------------------------------------------------
+// Page titles
+// ---------------------------------------------------------------------------
+
+// Quarto pads the page body by 14px on desktop only and ends it with a 60px
+// grid row; the page-top and page-end spacing is set once here instead.
+#quarto-content > main.content,
+#quarto-content > .wrap {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+#quarto-content.page-rows-contents {
+  grid-template-rows: [content-top] minmax(max-content, 1fr) [content-bottom] 0 [page-bottom];
+}
+
+main.content {
+  margin-bottom: $page-end;
+
+  // The last block (ignoring trailing scripts) brings no margin of its own.
+  > :nth-last-child(1 of :not(script)),
+  > :nth-last-child(1 of :not(script)) > :last-child,
+  > :nth-last-child(1 of :not(script)) > :last-child > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// A list or grid that ends its section ends it on its own rule or border.
+.entries:last-child,
+.cards:last-child,
+.quarto-listing .entries {
+  margin-bottom: 0;
+}
+
+.quarto-listing {
+  padding-bottom: 0;
+}
+
+#title-block-header {
+  margin-block: $page-top $title-gap;
+
+  .title {
+    font-size: $fs-display;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    font-family: $font-family-sans-serif;
+    font-size: $fs-body;
+    color: var(--muted);
+    margin-top: 0.6rem;
+  }
+
+  .description {
+    font-size: $fs-body;
+    color: var(--muted);
+    max-width: 40rem;
+  }
+
+  // Clear the title's descenders (Quarto's own rule sets this to 0).
+  &.quarto-title-block.default .description,
+  .description {
+    margin-top: 1rem;
+  }
+
+  .quarto-title-meta-heading {
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .quarto-title-meta-contents {
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+  }
+
+  svg.spark.title-spark {
+    width: 180px;
+    height: 26px;
+    margin-top: 1.4rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Home
+// ---------------------------------------------------------------------------
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+  padding-block: $page-top $section-gap;
+
+  // Name, role, links and bio on the left; the year dial on the right.
+  @media (min-width: 992px) {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 3rem;
+  }
+}
+
+
+.hero__name {
+  font-size: $fs-display;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.25rem;
+}
+
+.hero__role {
+  font-family: $headings-font-family;
+  font-size: clamp(1.25rem, 2.2vw, #{$fs-h2});
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 1.75rem;
+}
+
+
+.id-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & + & {
+    margin-top: 0.5rem;
+  }
+
+  a, .id-placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding-inline: 0.6rem;
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    transition: border-color 120ms ease, color 120ms ease, transform 120ms ease;
+  }
+
+  a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .bi {
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  .orcid-icon,
+  .ssrn-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex: none;
+  }
+
+  .id-placeholder {
+    border-style: dashed;
+    color: var(--muted);
+  }
+}
+
+.hero__dial {
+  margin: 0;
+
+  canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 0.9;
+    touch-action: pan-y;
+
+    // On phones the event labels limit the dial's width, so it needs less height.
+    @media (max-width: 520px) {
+      aspect-ratio: 1 / 0.78;
+    }
+  }
+
+  figcaption {
+    display: grid;
+    justify-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  .hero__dial-caption {
+    max-width: 22rem;
+    font-size: $fs-small;
+    color: var(--muted);
+    text-wrap: balance;
+  }
+
+  .hero__dial-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .hero__dial-answer {
+    font-size: $fs-small;
+    color: var(--ink);
+
+    strong {
+      font-family: $headings-font-family;
+      font-weight: 700;
+    }
+  }
+
+  button {
+    margin-top: 0.2rem;
+    font-size: $fs-mono;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+  }
+}
+
+.hero__about {
+  max-width: 40rem;
+  margin-top: 2rem;
+
+  p {
+    font-family: $headings-font-family;
+    font-size: $fs-lead;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0 0 1rem;
+  }
+
+  .more {
+    margin-top: 0.25rem;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.paths-figure {
+  margin: 1.75rem 0 2rem;
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: clamp(240px, 45vw, 360px);
+    touch-action: pan-y;
+    cursor: crosshair;
+  }
+}
+
+.paths-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.4rem;
+  margin-top: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--rule);
+  font-size: $fs-mono;
+  color: var(--muted);
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ink);
+  }
+
+  input[type="range"] {
+    width: 9rem;
+    accent-color: var(--accent);
+  }
+
+  output {
+    min-width: 4ch;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.paths-controls button {
+  font: inherit;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+}
+
+.home-latest {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  padding-block: $section-gap $page-end;
+  border-top: 1px solid var(--rule);
+
+  @media (min-width: 860px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+
+  h2.kicker {
+    margin: 0 0 1rem;
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+  }
+}
+
+// The home sections are .wrap blocks too, so restore this one's top spacing
+// after the #quarto-content > .wrap reset above.
+#quarto-content > .home-latest {
+  padding-top: $section-gap;
+}
+
+.home-col > :last-child {
+  margin-bottom: 0;
+}
+
+.home-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.home-item {
+  padding-block: 0.8rem;
+  border-bottom: 1px solid var(--rule);
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  .meta {
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .title {
+    font-family: $headings-font-family;
+    font-size: $fs-h3;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0;
+
+    a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .desc {
+    font-size: $fs-small;
+    color: var(--muted);
+    margin: 0.3rem 0 0;
+  }
+}
+
+.home-empty {
+  font-size: $fs-small;
+  color: var(--muted);
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+// ---------------------------------------------------------------------------
+// Entry lists: research, writing, talks, teaching
+// ---------------------------------------------------------------------------
+
+.entries {
+  list-style: none;
+  margin: 0 0 $section-gap;
+  padding: 0;
+}
+
+.entry-group {
+  margin-top: $section-gap;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  > h2 {
+    margin: 0 0 0.4rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--ink);
+    font-size: $fs-h2;
+  }
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.2rem 1.5rem;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--rule);
+
+  @media (min-width: 640px) {
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+  }
+
+  .when {
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+    color: var(--muted);
+    padding-top: 0.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .entry-title {
+    font-family: $headings-font-family;
+    font-size: $fs-h3;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0;
+
+    a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .entry-sub {
+    margin: 0.25rem 0 0;
+    font-size: $fs-small;
+    color: var(--muted);
+  }
+
+  .entry-desc {
+    margin: 0.45rem 0 0;
+    font-size: $fs-small;
+    max-width: 44rem;
+  }
+
+  details {
+    margin-top: 0.4rem;
+    font-size: $fs-small;
+
+    summary {
+      cursor: pointer;
+      font-family: $font-family-monospace;
+      font-size: $fs-mono;
+      color: var(--muted);
+      width: fit-content;
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+
+    p {
+      margin: 0.45rem 0 0;
+      max-width: 44rem;
+    }
+  }
+
+  svg.spark {
+    margin-top: 0.6rem;
+  }
+}
+
+// Entry and card titles are list items, not sections, so they get no hover
+// "#" link; on phones it would wrap onto a blank line under a long title.
+.entry-title .anchorjs-link,
+.card-title .anchorjs-link {
+  display: none;
+}
+
+.entry.is-placeholder,
+.card.is-placeholder,
+.home-item.is-placeholder {
+  .entry-title, .card-title, .title {
+    color: var(--muted);
+  }
+}
+
+.page-intro {
+  font-size: $fs-body;
+  max-width: 40rem;
+  margin-bottom: $section-gap;
+}
+
+// ---------------------------------------------------------------------------
+// Cards: projects
+// ---------------------------------------------------------------------------
+
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0 0 $section-gap;
+  padding: 0;
+
+  @media (min-width: 720px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.25rem 1.3rem 1.2rem;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  transition: border-color 150ms ease, transform 150ms ease;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--rule));
+  }
+
+  .card-kind {
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .card-title {
+    font-family: $headings-font-family;
+    font-size: $fs-h3;
+    font-weight: 500;
+    margin: 0;
+
+    a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .card-desc {
+    font-size: $fs-small;
+    margin: 0;
+  }
+
+  .card-tags {
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  svg.spark {
+    width: 100%;
+    height: 28px;
+    margin-bottom: 0.3rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// CV
+// ---------------------------------------------------------------------------
+
+.cv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 1rem;
+  font-family: $font-family-monospace;
+  font-size: $fs-mono;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+
+  &:hover {
+    color: var(--paper);
+    background: var(--ink);
+  }
+
+  &.is-disabled {
+    border-style: dashed;
+    border-color: var(--rule);
+    color: var(--muted);
+    pointer-events: none;
+  }
+}
+
+// The CV page draws cv/vlachos-cv.pdf with PDF.js (assets/js/cv.js).
+.cv-viewer {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+}
+
+.cv-status {
+  margin: 0;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  font-family: $font-family-monospace;
+  font-size: $fs-mono;
+  color: var(--muted);
+  border: 1px dashed var(--rule);
+  border-radius: 4px;
+}
+
+.cv-page {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(20, 33, 58, 0.06), 0 10px 28px rgba(20, 33, 58, 0.08);
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  // Transparent, selectable text over the canvas (after PDF.js's viewer CSS).
+  .textLayer {
+    position: absolute;
+    inset: 0;
+    overflow: clip;
+    opacity: 1;
+    line-height: 1;
+    text-align: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-size-adjust: none;
+    forced-color-adjust: none;
+    transform-origin: 0 0;
+    z-index: 0;
+    --min-font-size: 1;
+    --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+    --min-font-size-inv: calc(1 / var(--min-font-size));
+
+    :is(span, br) {
+      color: transparent;
+      position: absolute;
+      white-space: pre;
+      cursor: text;
+      transform-origin: 0% 0%;
+    }
+
+    > :not(.markedContent),
+    .markedContent span:not(.markedContent) {
+      z-index: 1;
+      --font-height: 0;
+      font-size: calc(var(--text-scale-factor) * var(--font-height));
+      --scale-x: 1;
+      --rotate: 0deg;
+      transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+    }
+
+    .markedContent {
+      display: contents;
+    }
+
+    ::selection {
+      color: transparent;
+      background: rgba(194, 65, 45, 0.25);
+    }
+  }
+}
+
+.cv-links {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cv-link {
+  position: absolute;
+  pointer-events: auto;
+  border-radius: 2px;
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(194, 65, 45, 0.12);
+    outline: 1px solid rgba(194, 65, 45, 0.5);
+    outline-offset: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// About
+// ---------------------------------------------------------------------------
+
+// The same paragraphs as the front page's bio, set the same way.
+.about-lede {
+  max-width: 40rem;
+  font-family: $headings-font-family;
+  font-size: $fs-lead;
+  font-weight: 400;
+  line-height: 1.5;
+
+  p {
+    margin: 0 0 1rem;
+  }
+}
+
+.about-lede .rig {
+  display: inline-block;
+  font-family: $font-family-monospace;
+  font-size: $fs-mono;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  border-top: 1px solid var(--rule);
+  padding-top: 0.5rem;
+}
+
+.elsewhere {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+
+  li {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: 0.55rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: $fs-small;
+  }
+
+  .label {
+    font-family: $font-family-monospace;
+    font-size: $fs-mono;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 0.15rem;
+  }
+
+  a {
+    overflow-wrap: anywhere;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Posts
+// ---------------------------------------------------------------------------
+
+.quarto-title-meta {
+  font-family: $font-family-monospace;
+}
+
+main.content {
+  p, li {
+    hyphens: auto;
+  }
+
+  blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem;
+    color: var(--muted);
+    font-family: $headings-font-family;
+    font-size: $fs-lead;
+  }
+}
+
+div.sourceCode, pre.sourceCode {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.katex {
+  font-size: 1.08em;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.25rem;
+}
+
+// ---------------------------------------------------------------------------
+// 404
+// ---------------------------------------------------------------------------
+
+.absorbed {
+  margin-block: 0 1rem;
+
+  svg {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    overflow: visible;
+  }
+
+  .walk {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+
+  .barrier {
+    stroke: var(--accent);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+  }
+
+  .hit {
+    fill: var(--accent);
+  }
+
+  text {
+    font-family: $font-family-monospace;
+    font-size: 11px;
+    fill: var(--muted);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Footer
+// ---------------------------------------------------------------------------
+
+footer.footer .nav-footer {
+  padding-left: 1.95rem;
+  padding-right: 1.95rem;
+
+  // On phones: the copyright, then the profiles, then the RSS icon.
+  @media (max-width: 767.98px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+
+    .nav-footer-left,
+    .nav-footer-center,
+    .nav-footer-right {
+      flex: none;
+      margin: 0;
+    }
+
+    .nav-footer-center {
+      order: 2;
+      max-width: 100%;
+
+      .footer-items {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-link {
+        padding-inline: 0.35rem;
+      }
+    }
+
+    .nav-footer-right {
+      order: 3;
+    }
+  }
+}
+
+.nav-footer {
+  border-top: 1px solid var(--rule);
+  font-family: $font-family-monospace;
+  font-size: $fs-mono;
+  color: var(--muted);
+  padding-block: 1.1rem;
+
+  // Quarto shrinks each block to 0.825em; keep one footer size.
+  footer.footer & :is(.nav-footer-left, .nav-footer-center, .nav-footer-right) {
+    font-size: inherit;
+  }
+
+  .nav-link {
+    color: var(--muted);
+    padding: 0.15rem 0.45rem;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Search
+// ---------------------------------------------------------------------------
+
+// The navbar search icon, the same size as the theme toggle beside it.
+.navbar #quarto-search.type-overlay .aa-Autocomplete svg.aa-SubmitIcon {
+  width: 18px;
+  height: 18px;
+}
+
+// On phones the toggler, name, theme toggle and search share one row.
+@media (max-width: 991.98px) {
+  .navbar .quarto-navbar-tools {
+    margin-left: 0.35rem;
+  }
+
+  .navbar #quarto-search .aa-DetachedSearchButton {
+    padding-inline: 0.3rem;
+  }
+
+  .navbar #quarto-search,
+  .navbar #quarto-search .aa-Autocomplete {
+    width: auto;
+  }
+
+  .navbar .navbar-brand {
+    margin-right: 0.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar .navbar-title {
+    font-size: 1.02rem;
+  }
+}
+
+// On the narrowest phones the monogram stands in for the name.
+@media (max-width: 350px) {
+  .navbar .navbar-title {
+    display: none;
+  }
+}
+
+// The selected result gets a light accent tint rather than a solid block.
+body .aa-DetachedOverlay li.aa-Item[aria-selected="true"] .search-item,
+body .aa-DetachedOverlay li.aa-Item[aria-selected="true"] .search-item.search-result-more,
+body .aa-DetachedOverlay li.aa-Item[aria-selected="true"] .search-item .search-result-section,
+body .aa-DetachedOverlay li.aa-Item[aria-selected="true"] .search-item .search-result-text,
+body .aa-DetachedOverlay li.aa-Item[aria-selected="true"] .search-item .search-result-title-container,
+body .aa-DetachedOverlay li.aa-Item[aria-selected="true"] .search-item .search-result-text-container {
+  color: var(--ink);
+  background-color: color-mix(in srgb, var(--accent) 9%, var(--paper));
+}
+
+body .aa-DetachedOverlay li.aa-Item[aria-selected="true"] .search-item mark.search-match,
+body .aa-DetachedOverlay li.aa-Item[aria-selected="true"] .search-item .search-match.mark {
+  color: var(--ink);
+  background-color: color-mix(in srgb, var(--accent) 24%, var(--paper));
+}

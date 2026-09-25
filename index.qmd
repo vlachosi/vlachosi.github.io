@@ -1,0 +1,116 @@
+---
+pagetitle: "Ioannis Vlachos"
+description: "Ioannis Vlachos, Honours Student at Monash Business School."
+page-layout: custom
+anchor-sections: false
+body-classes: home
+include-after-body:
+  - text: |
+      <script src="/assets/js/dial.js" defer></script>
+listing:
+  - id: home-research
+    contents: research/papers.yml
+    template: templates/home.ejs
+    sort: false
+    max-items: 2
+    template-params:
+      kind: research
+      empty: "Papers will appear here."
+  - id: home-writing
+    contents: writing/posts
+    template: templates/home.ejs
+    sort: "date desc"
+    max-items: 3
+    template-params:
+      kind: writing
+      empty: "Nothing published yet. The first post is on its way."
+  - id: home-code
+    contents: projects/projects.yml
+    template: templates/home.ejs
+    sort: false
+    max-items: 2
+    template-params:
+      kind: code
+      empty: "Projects will appear here."
+---
+
+```{=html}
+<div class="wrap">
+<section class="hero" aria-labelledby="hero-name">
+  <div class="hero__text">
+    <h1 class="hero__name" id="hero-name">Ioannis Vlachos</h1>
+    <p class="hero__role">Honours Student at<br>Monash Business School</p>
+    <ul class="id-links" aria-label="Academic profiles">
+      <li><a href="https://orcid.org/0009-0003-1216-2488" aria-label="ORCID" title="ORCID 0009-0003-1216-2488">
+        <svg class="orcid-icon" viewBox="0 0 256 256" aria-hidden="true"><circle cx="128" cy="128" r="128" fill="#A6CE39"/><g fill="#fff"><rect x="70" y="102" width="18" height="84" rx="1"/><circle cx="79" cy="79" r="11.5"/><path d="M108 102h44c26 0 46 18.5 46 42s-20 42-46 42h-44zM126 118v52h25c17 0 29-11 29-26s-12-26-29-26z"/></g></svg>
+        ORCID</a></li>
+      <li><a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=13292568" aria-label="SSRN author page" title="SSRN author page">
+        <svg class="ssrn-icon" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="6" fill="#2A63AB"/><rect x="4" y="4" width="56" height="56" rx="3" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.5"/><text x="32" y="40" text-anchor="middle" font-family="Petrona, Georgia, serif" font-size="20" font-weight="700" fill="#fff" letter-spacing="-0.5">SSRN</text></svg>
+        SSRN</a></li>
+    </ul>
+    <ul class="id-links" aria-label="Social profiles and email">
+      <li><a href="https://github.com/vlachosi" aria-label="GitHub"><i class="bi bi-github" aria-hidden="true"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/iivlachos/" aria-label="LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a></li>
+      <li><a href="https://bsky.app/profile/vlachosi.bsky.social" aria-label="Bluesky"><i class="bi bi-bluesky" aria-hidden="true"></i></a></li>
+      <li><a href="https://x.com/vlachosii" aria-label="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a></li>
+      <li data-email-slot><span class="id-placeholder" title="Email address to be added"><i class="bi bi-envelope" aria-hidden="true"></i><span class="sr-only">Email (placeholder)</span></span></li>
+    </ul>
+```
+
+::: {.hero__about}
+I'm an Honours Student at Monash Business School. The focus of my research is how markets price information in options and volatility, how much of scheduled news such as an earnings announcement is already in option prices, and how efficiently the rest is absorbed.
+
+AI is my other obsession. I'm currently building my own homelab to run models locally, which felt inevitable as I've been long custom PC building since I was twelve and have never closed the position.
+
+[More about me →](about.qmd){.more}
+:::
+
+```{=html}
+  </div>
+  <figure class="hero__dial" data-dial data-url-seed>
+    <canvas role="img" aria-label="A simulated year of implied volatility, January at the top and running clockwise. It rises into each scheduled announcement, such as earnings or an FOMC decision, and falls once the news is out; the inner ticks show daily price moves, which spike on announcement days."></canvas>
+    <figcaption>
+      <span class="kicker">Question</span>
+      <span class="hero__dial-caption">I get jumpy leading into announcements and collapse once the news is public.</span>
+      <span class="hero__dial-actions">
+        <button type="button" class="mono" data-reveal aria-expanded="false" aria-controls="dial-answer">What am I?</button>
+        <button type="button" class="mono" data-redraw>↻ redraw</button>
+      </span>
+      <span class="hero__dial-answer" id="dial-answer" data-answer aria-live="polite" hidden><strong>Implied volatility.</strong></span>
+    </figcaption>
+  </figure>
+</section>
+</div>
+```
+
+
+::::: {.home-latest .wrap}
+
+:::: {.home-col}
+<h2 class="kicker">Research</h2>
+
+::: {#home-research}
+:::
+
+[All research →](research/index.qmd){.more}
+::::
+
+:::: {.home-col}
+<h2 class="kicker">Writing</h2>
+
+::: {#home-writing}
+:::
+
+[All writing →](writing/index.qmd){.more}
+::::
+
+:::: {.home-col}
+<h2 class="kicker">Code</h2>
+
+::: {#home-code}
+:::
+
+[All projects →](projects/index.qmd){.more}
+::::
+
+:::::

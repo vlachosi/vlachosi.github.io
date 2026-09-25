@@ -1,0 +1,17 @@
+```{=html}
+<ul class="entries list">
+<% if (items.length === 0) { %>
+<li class="entry"><div class="when"></div><div><p class="entry-desc"><%- templateParams.empty %></p></div></li>
+<% } %>
+<% for (const item of items) { %>
+<li class="entry" <%= metadataAttrs(item) %>>
+  <div class="when"><%- item.date || "" %></div>
+  <div>
+    <h3 class="entry-title"><a href="<%- item.path %>"><%= item.title %></a></h3>
+    <% if (item.description) { %><p class="entry-desc"><%= item.description %></p><% } %>
+    <svg class="spark" data-spark="<%- item.path %>" aria-hidden="true"></svg>
+  </div>
+</li>
+<% } %>
+</ul>
+```

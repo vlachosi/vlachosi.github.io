@@ -1,0 +1,18 @@
+```{=html}
+<ul class="cards list">
+<% for (const item of items) { %>
+<li class="card<%= item.placeholder ? ' is-placeholder' : '' %>" <%= metadataAttrs(item) %>>
+  <svg class="spark" data-spark="project:<%- item.title %>" aria-hidden="true"></svg>
+  <% if (item.kind) { %><div class="card-kind"><%- item.kind %></div><% } %>
+  <h3 class="card-title"><% if (item.href) { %><a href="<%- item.href %>"><%= item.title %></a><% } else { %><%= item.title %><% } %><% if (item.placeholder) { %><span class="placeholder-tag">placeholder</span><% } %></h3>
+  <% if (item.description) { %><p class="card-desc"><%= item.description %></p><% } %>
+  <% if (item.tags && item.tags.length) { %><p class="card-tags"><%- item.tags.join(" · ") %></p><% } %>
+  <% if (item.links && item.links.length) { %>
+  <ul class="pill-links">
+    <% for (const l of item.links) { %><li><a href="<%- l.url %>"><%- l.label %></a></li><% } %>
+  </ul>
+  <% } %>
+</li>
+<% } %>
+</ul>
+```

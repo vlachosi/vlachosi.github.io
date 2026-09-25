@@ -1,0 +1,22 @@
+/*-- scss:defaults --*/
+
+$paper:  #0D1524;
+$card:   #121C2E;
+$ink:    #E8E3D6;
+$muted:  #9AA3B5;
+$rule:   #26324A;
+$accent: #F0785C;
+
+/*-- scss:rules --*/
+
+:root {
+  --paper: #{$paper};
+  --card: #{$card};
+  --ink: #{$ink};
+  --muted: #{$muted};
+  --rule: #{$rule};
+  --accent: #{$accent};
+  --path-alpha: 0.24;
+  --band-alpha: 0.14;
+  color-scheme: dark;
+}

@@ -1,0 +1,94 @@
+---
+title: "Sample paths in the browser"
+description: "The maths and the code behind simulated price paths drawn in the browser."
+date: 2026-09-23
+categories: [simulation, stochastic calculus, javascript]
+draft: true
+include-after-body:
+  - text: |
+      <script src="/assets/js/paths.js" defer></script>
+---
+
+The figure below is a small Monte Carlo experiment that runs again every time the page loads. Each thin line is one possible price path for an asset whose price follows geometric Brownian motion (GBM), the model underneath Black–Scholes:
+
+$$
+dS_t = \mu S_t \, dt + \sigma S_t \, dW_t ,
+$$
+
+where $W_t$ is a standard Brownian motion, $\mu$ is the drift and $\sigma$ the volatility. Applying Itô's lemma to $\log S_t$ gives the solution in closed form:
+
+$$
+S_t = S_0 \exp\!\Big( \big(\mu - \tfrac{1}{2}\sigma^2\big) t + \sigma W_t \Big).
+$$
+
+## Simulating without discretisation error
+
+Because the solution is explicit, the paths need no Euler scheme. On a grid of trading days, with step $\Delta t = 1/252$ years, the log price moves by independent normal increments:
+
+$$
+\log S_{t+\Delta t} = \log S_t + \big(\mu - \tfrac{1}{2}\sigma^2\big)\Delta t + \sigma \sqrt{\Delta t}\, Z,
+\qquad Z \sim N(0, 1).
+$$
+
+Every simulated point therefore has exactly the right distribution. The only approximation is that each path is observed on 252 dates rather than continuously. The normals come from a Box–Muller transform applied to a small seeded generator (mulberry32), which is why a draw can be reproduced from its seed: this page accepts `?seed=` in its address.
+
+```js
+function simulate(model, seed, nPaths) {
+  const z = gaussian(mulberry32(seed));
+  const dt = model.years / STEPS;
+  const drift = (model.mu - 0.5 * model.sigma ** 2) * dt;
+  const vol = model.sigma * Math.sqrt(dt);
+
+  return Array.from({ length: nPaths }, () => {
+    const path = new Float64Array(STEPS + 1);
+    let x = Math.log(model.s0);
+    path[0] = model.s0;
+    for (let i = 1; i <= STEPS; i++) {
+      x += drift + vol * z();
+      path[i] = Math.exp(x);
+    }
+    return path;
+  });
+}
+```
+
+## The band and the median
+
+The log price $\log S_t$ is normal with mean $\log S_0 + (\mu - \sigma^2/2)\,t$ and variance $\sigma^2 t$, so the $q$-quantile of $S_t$ is
+
+$$
+S_0 \exp\!\Big( \big(\mu - \tfrac{1}{2}\sigma^2\big) t + z_q \, \sigma \sqrt{t} \Big),
+$$
+
+with $z_q$ the standard normal quantile. The shaded region runs between $z_{0.05}$ and $z_{0.95} \approx 1.645$. The dashed line is the median, $S_0 e^{(\mu - \sigma^2/2)t}$. It sits below the mean, $S_0 e^{\mu t}$, because the lognormal distribution is skewed to the right: a typical path finishes below the average of all paths.
+
+## The terminal distribution
+
+At the right edge, a histogram of 2,000 independent draws of $S_1$ is set against the lognormal density
+
+$$
+f(s) = \frac{1}{s \, \sigma \sqrt{2\pi}}
+\exp\!\left( - \frac{\big(\log s - \log S_0 - (\mu - \tfrac{1}{2}\sigma^2)\big)^2}{2\sigma^2} \right).
+$$
+
+With 2,000 draws the histogram tracks the density closely but not exactly. The gap is Monte Carlo error, and its standard error falls in proportion to $1/\sqrt{n}$.
+
+## Try it
+
+The sliders change $\mu$ and $\sigma$ but keep the seed, so the same shocks $Z$ are reused and only the parameters move.
+
+```{=html}
+<figure class="paths-figure" data-paths data-url-seed data-ymin="0.45" data-ymax="2.1">
+  <canvas role="img" aria-label="Interactive simulation of geometric Brownian motion paths with adjustable drift and volatility."></canvas>
+  <figcaption class="paths-controls mono">
+    <label>μ <input type="range" data-param="mu" min="-0.2" max="0.3" step="0.01"> <output data-for="mu"></output></label>
+    <label>σ <input type="range" data-param="sigma" min="0.05" max="0.6" step="0.01"> <output data-for="sigma"></output></label>
+    <button type="button" data-redraw>↻ new draw</button>
+    <span data-seed></span>
+  </figcaption>
+</figure>
+```
+
+Push $\sigma$ up with $\mu$ fixed and the median falls. That is the $-\tfrac{1}{2}\sigma^2$ term, sometimes called volatility drag: more volatility widens the band and also pulls the typical outcome down, even though the mean $S_0 e^{\mu t}$ does not change.
+
+The full script, about five hundred lines with no libraries, is [on GitHub](https://github.com/vlachosi/vlachosi.github.io/blob/main/assets/js/paths.js).

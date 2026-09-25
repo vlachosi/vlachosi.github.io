@@ -1,0 +1,24 @@
+# Projects, software, replication packages and notebooks.
+# Fields: title, kind, description, href, tags[], links[{label, url}]
+# Delete `placeholder: true` when an entry is real.
+
+- title: "This website"
+  kind: Website
+  description: "Quarto with a hand-written theme. The front page simulates a year of implied volatility around scheduled announcements, and every page gets its own random-walk fingerprint."
+  href: https://github.com/vlachosi/vlachosi.github.io
+  tags: [Quarto, JavaScript, SCSS]
+  links:
+    - label: Source
+      url: https://github.com/vlachosi/vlachosi.github.io
+
+- title: "Project name"
+  kind: Replication package
+  description: "Code and data that reproduce the tables and figures of a paper."
+  tags: [Python]
+  placeholder: true
+
+- title: "Project name"
+  kind: Software
+  description: "A short description of what the tool does and who it is for."
+  tags: [R]
+  placeholder: true

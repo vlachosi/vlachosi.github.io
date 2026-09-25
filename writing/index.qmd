@@ -1,0 +1,15 @@
+---
+title: "Writing"
+description: "My own notes on finance, statistics and code."
+listing:
+  id: posts
+  contents: posts
+  template: ../templates/posts.ejs
+  sort: "date desc"
+  feed: true
+  template-params:
+    empty: "Nothing published yet. The first post is on its way."
+---
+
+::: {#posts}
+:::

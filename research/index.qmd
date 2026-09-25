@@ -1,0 +1,16 @@
+---
+title: "Research"
+description: "Papers, work in progress and thesis."
+listing:
+  id: papers
+  contents: papers.yml
+  template: ../templates/papers.ejs
+  sort: false
+---
+
+::: {.page-intro}
+Papers and work in progress will be listed here as they are ready, with abstracts, code and data where I can share them.
+:::
+
+::: {#papers}
+:::

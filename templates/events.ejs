@@ -1,0 +1,19 @@
+```{=html}
+<ul class="entries list">
+<% for (const item of items) { %>
+<li class="entry<%= item.placeholder ? ' is-placeholder' : '' %>" <%= metadataAttrs(item) %>>
+  <div class="when"><%- item.when || "" %></div>
+  <div>
+    <h3 class="entry-title"><% if (item.href) { %><a href="<%- item.href %>"><%= item.title %></a><% } else { %><%= item.title %><% } %><% if (item.placeholder) { %><span class="placeholder-tag">placeholder</span><% } %></h3>
+    <% if (item.where) { %><p class="entry-sub"><%= item.where %></p><% } %>
+    <% if (item.description) { %><p class="entry-desc"><%= item.description %></p><% } %>
+    <% if (item.links && item.links.length) { %>
+    <ul class="pill-links">
+      <% for (const l of item.links) { %><li><a href="<%- l.url %>"><%- l.label %></a></li><% } %>
+    </ul>
+    <% } %>
+  </div>
+</li>
+<% } %>
+</ul>
+```

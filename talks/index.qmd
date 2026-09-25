@@ -1,0 +1,12 @@
+---
+title: "Talks"
+description: "Seminars, conferences and workshops."
+listing:
+  id: talks
+  contents: talks.yml
+  template: ../templates/events.ejs
+  sort: false
+---
+
+::: {#talks}
+:::

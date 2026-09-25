@@ -1,0 +1,55 @@
+---
+title: "Page not found"
+anchor-sections: false
+body-classes: no-title-spark
+---
+
+::: {.absorbed}
+```{=html}
+<svg viewBox="0 0 640 200" role="img" aria-label="A random walk that drifts down and is absorbed at zero." data-absorbed></svg>
+```
+:::
+
+This path hit zero. The page you were looking for does not exist, or has moved.
+
+Try the [front page](/index.html), or one of [Research](/research/index.html), [Writing](/writing/index.html) and [Projects](/projects/index.html).
+
+```{=html}
+<script>
+(function () {
+  const svg = document.querySelector("[data-absorbed]");
+  if (!svg) return;
+  const ns = "http://www.w3.org/2000/svg";
+  const W = 640, H = 200, top = 20, floor = 170, steps = 160;
+  let seed = 404;
+  const rng = () => {
+    seed = (seed + 0x6d2b79f5) >>> 0;
+    let t = seed;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  // Random walk with negative drift from S = 1, stopped at the barrier S = 0.
+  let s = 1, pts = [[0, s]], hit = null;
+  for (let i = 1; i <= steps && hit === null; i++) {
+    s += -0.009 + 0.075 * (rng() - 0.5) * 2;
+    if (s <= 0) { hit = i; s = 0; }
+    pts.push([i, s]);
+  }
+  const x = (i) => 10 + (i / steps) * (W - 20);
+  const y = (v) => floor - v * (floor - top) / 1.3;
+  const el = (name, attrs) => {
+    const n = document.createElementNS(ns, name);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    svg.appendChild(n);
+    return n;
+  };
+  el("line", { class: "barrier", x1: 10, x2: W - 10, y1: y(0), y2: y(0) });
+  el("polyline", { class: "walk", points: pts.map(([i, v]) => `${x(i)},${y(v)}`).join(" ") });
+  const last = pts[pts.length - 1];
+  el("circle", { class: "hit", cx: x(last[0]), cy: y(last[1]), r: 4.5 });
+  const label = el("text", { x: W - 10, y: y(0) + 20, "text-anchor": "end" });
+  label.textContent = hit === null ? "S = 0" : `S = 0 at t = ${hit}`;
+})();
+</script>
+```

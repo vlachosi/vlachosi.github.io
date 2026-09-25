@@ -1,0 +1,9 @@
+# Talks and presentations, newest first.
+# Fields: title, when, where, description, href, links[{label, url}]
+# Delete `placeholder: true` when an entry is real.
+
+- title: "Talk title"
+  when: "2026"
+  where: "Seminar or conference, city"
+  description: "One line on what the talk covered."
+  placeholder: true

@@ -1,0 +1,42 @@
+<%
+const groups = [
+  ["published", "Publications"],
+  ["working", "Working papers"],
+  ["progress", "Work in progress"],
+  ["thesis", "Thesis"],
+];
+%>
+```{=html}
+<div class="list papers">
+<% for (const [status, heading] of groups) {
+  const group = items.filter((item) => item.status === status);
+  if (group.length === 0) continue;
+%>
+<section class="entry-group" id="<%- status %>">
+<h2><%- heading %></h2>
+<ul class="entries">
+<% for (const item of group) { %>
+<li class="entry<%= item.placeholder ? ' is-placeholder' : '' %>" <%= metadataAttrs(item) %>>
+  <div class="when"><%- item.year || "" %></div>
+  <div>
+    <h3 class="entry-title"><% if (item.href) { %><a href="<%- item.href %>"><%= item.title %></a><% } else { %><%= item.title %><% } %><% if (item.placeholder) { %><span class="placeholder-tag">placeholder</span><% } %></h3>
+    <% if (item.authors) { %><p class="entry-sub"><%= item.authors %><% if (item.venue) { %> · <span class="venue"><%= item.venue %></span><% } %></p><% } %>
+    <% if (item.abstract) { %>
+    <details>
+      <summary>Abstract</summary>
+      <p><%= item.abstract %></p>
+    </details>
+    <% } %>
+    <% if (item.links && item.links.length) { %>
+    <ul class="pill-links">
+      <% for (const l of item.links) { %><li><a href="<%- l.url %>"><%- l.label %></a></li><% } %>
+    </ul>
+    <% } %>
+  </div>
+</li>
+<% } %>
+</ul>
+</section>
+<% } %>
+</div>
+```
